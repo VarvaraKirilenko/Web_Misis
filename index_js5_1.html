@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Переключатель карточек</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            background-color: #4a90e2;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: #357abd;
+        }
+
+        .card {
+            width: 300px;
+            height: 200px;
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            padding: 20px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .card h2 {
+            margin-bottom: 10px;
+        }
+
+        .card-1 {
+            background-color: #e3f2fd; /* голубая */
+        }
+
+        .card-2 {
+            background-color: #ffebee; /* розовая */
+        }
+
+        .card-3 {
+            background-color: #e8f5e9; /* зелёная */
+        }
+
+        .card-4 {
+            background-color: #fff3e0; /* оранжевая */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <button id="prevBtn" class="nav-btn">←</button>
+
+    <div class="card" id="card">
+        <h2 id="cardTitle">Карточка 1</h2>
+        <p id="cardText">Содержимое карточки 1</p>
+    </div>
+
+    <button id="nextBtn" class="nav-btn">→</button>
+</div>
+
+<script>
+    const cards = [
+      {
+        title: "Карточка 1",
+        text: "Содержимое карточки",
+        className: 'card-1'
+      },
+      {
+        title: "Карточка 2",
+        text: "Содержимое карточки",
+        className: 'card-2'
+      },
+      {
+        title: "Карточка 3",
+        text: "Содержимое карточки",
+        className: 'card-3'
+      },
+      {
+        title: "Карточка 4",
+        text: "Содержимое карточки",
+        className: 'card-4'
+      }
+    ];
+
+    const card      = document.getElementById('card');
+    const cardTitle = document.getElementById('cardTitle');
+    const cardText  = document.getElementById('cardText');
+    const prevBtn   = document.getElementById('prevBtn');
+    const nextBtn   = document.getElementById('nextBtn');
+
+    let currentIndex = 0;
+
+    function updateCard(){
+      const currentCard = cards[currentIndex];
+      cardTitle.textContent = currentCard.title;
+      cardText.textContent = currentCard.text;
+      card.classList.remove('card-1', 'card-2', 'card-3', 'card-4');
+      card.classList.add(currentCard.className);
+      
+    }
+
+    if (nextBtn){
+      nextBtn.addEventListener('click', function(){
+        if (currentIndex >= (cards.length-1)){
+          currentIndex = 0;
+        } else {
+          currentIndex++;
+        }
+        updateCard();
+      })
+    }
+
+    if (prevBtn){
+      prevBtn.addEventListener('click', function(){
+        if (currentIndex === 0){
+          currentIndex = (cards.length - 1);
+        } else {
+          currentIndex--;
+        }
+        updateCard();
+      })
+    }
+</script>
+</body>
+</html>

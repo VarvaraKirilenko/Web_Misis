@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>js3_2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      position: relative;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      min-width: 400px;
+      max-width: 500px;
+    }
+
+    .container p {
+      margin: 0 0 20px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .container p span {
+      color: #4a90e2;
+      font-weight: 700;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    #messageText {
+      width: 100%;
+      padding: 12px 50px 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    #messageText:focus {
+      outline: none;
+      border-color: #4a90e2;
+    }
+
+    #messageText::placeholder {
+      color: #999;
+    }
+
+    #messageImportant {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      accent-color: #4a90e2;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    #messageImportant:focus {
+      outline: 2px solid #4a90e2;
+      outline-offset: 2px;
+    }
+
+    #sendMessageBtn {
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #4a90e2;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      font-weight: 500;
+      box-sizing: border-box;
+    }
+
+    #sendMessageBtn:hover {
+      background-color: #357abd;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+    }
+
+    #blockContainer {
+      margin-top: 25px;
+      min-height: 20px;
+    }
+
+    .dinamic-block {
+      background-color: #e3f2fd;
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin-bottom: 12px;
+      border: 2px solid #4a90e2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+      transition: all 0.2s;
+      color: #333;
+    }
+
+    .dinamic-block.important-message {
+      background-color: #fff5f5;
+      border: 2px solid #e53935;
+      box-shadow: 0 2px 8px rgba(229, 57, 53, 0.3);
+      color: #333;
+    }
+
+    .delete-btn {
+      padding: 6px 12px;
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .delete-btn:hover {
+      background-color: #e64a19;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <p>Сообщений <span id="allMessages"> 0 </span></p>
+    <div class = "input-wrapper">
+      <input id="messageText" type="text" placeholder='Введите сообщение...'>
+      <input id="messageImportant" type="checkbox">
+    </div>
+    
+    <button id ='sendMessageBtn'>
+      Отправить
+    </button>
+    <div id='blockContainer'> 
+    </div>
+  </div>
+
+  <script>
+    const sendMessageBtn = document.getElementById("sendMessageBtn");
+    const blockContainer = document.getElementById("blockContainer");
+    const messageText = document.getElementById("messageText");
+    const allMessages = document.getElementById("allMessages");
+    const messageImportant = document.getElementById("messageImportant");
+
+    let messageNumber = 0;
+
+    function sendMessage() {
+      if (messageText.value.trim() !== "") {
+        messageNumber = messageNumber + 1;
+        allMessages.textContent = messageNumber;
+
+        const newMessage = document.createElement("div");
+        const newDeleteBtn = document.createElement("button");
+        newDeleteBtn.classList.add("delete-btn");
+        newMessage.classList.add("dinamic-block");
+
+        if (messageImportant.checked === true) {
+          newMessage.classList.add("important-message");
+          messageImportant.checked = false;
+        }
+        newMessage.textContent = messageText.value;
+        newDeleteBtn.textContent = "Удалить";
+        blockContainer.appendChild(newMessage);
+        newMessage.appendChild(newDeleteBtn);
+        messageText.value = "";
+
+        newDeleteBtn.addEventListener("click", function () {
+          blockContainer.removeChild(newMessage);
+          messageNumber = messageNumber - 1;
+          allMessages.textContent = messageNumber;
+        });
+        
+        messageText.focus();
+      }
+    }
+
+    if (sendMessageBtn && blockContainer) {
+      sendMessageBtn.addEventListener("click", sendMessage); 
+      messageText.addEventListener("keydown", function(event) {
+        if (event.keyCode === 13) {
+          sendMessage();
+        }
+      }); 
+      messageImportant.addEventListener("keydown", function(event) {
+        if (event.keyCode === 13) {
+          sendMessage();
+        }
+      }); 
+    }
+  </script>
+</body>
+</html>

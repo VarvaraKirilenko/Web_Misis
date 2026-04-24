@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мини-магазин</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .products {
+            margin-bottom: 20px;
+        }
+
+        .product {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product:last-child {
+            border-bottom: none;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        button {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: none;
+            background-color: #4a90e2;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        .cart {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+        #cartItems {
+            margin-top: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 6px 8px;
+            margin-bottom: 6px;
+            border-radius: 4px;
+            background-color: #fafafa;
+            border: 1px solid #e0e0e0;
+        }
+
+        .cart-item-title {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .cart-item button {
+            background-color: #e53935;
+        }
+
+        .cart-item button:hover {
+            background-color: #c62828;
+        }
+
+         .dinamic-block {
+              background-color: #e3f2fd;
+              border-radius: 8px;
+              padding: 15px 20px;
+              margin-bottom: 12px;
+              border: 2px solid #4a90e2;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+              transition: all 0.2s;
+              color: #333;
+            }
+
+        .delete-btn {
+              padding: 6px 12px;
+              background-color: #ff5722;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 12px;
+              font-weight: 500;
+              transition: all 0.2s;
+            }
+
+            .delete-btn:hover {
+              background-color: #e64a19;
+              transform: scale(1.05);
+            }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Мини-магазин</h1>
+
+    <div class="products">
+        <div class="product">
+            <h2 class="product-title" id="product1Title">Синий блокнот</h2>
+            <button id="addProduct1">Добавить в корзину</button>
+        </div>
+
+        <div class="product">
+            <h2 class="product-title" id="product2Title">Красная ручка</h2>
+            <button id="addProduct2">Добавить в корзину</button>
+        </div>
+
+        <div class="product">
+            <h2 class="product-title" id="product3Title">Зелёный маркер</h2>
+            <button id="addProduct3">Добавить в корзину</button>
+        </div>
+    </div>
+
+    <div class="cart">
+        <h2>Корзина</h2>
+        <p>В корзине: <span id="cartCount">0</span> товаров</p>
+        <div id="cartItems">
+            <!-- Товары будут добавляться сюда через JS -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const cartItems = document.getElementById("cartItems");
+    const cartCount = document.getElementById("cartCount");
+
+    const addProduct3 = document.getElementById("addProduct3");
+    const addProduct2 = document.getElementById("addProduct2");
+    const addProduct1 = document.getElementById("addProduct1");
+
+    const product1Title = document.getElementById("product1Title");
+    const product2Title = document.getElementById("product2Title");
+    const product3Title = document.getElementById("product3Title");
+
+    let cartCountVar = 0;
+
+    function addItem(productName) {
+      cartCountVar = cartCountVar + 1;
+      cartCount.textContent = cartCountVar;
+
+      const newItemBuy = document.createElement("div");
+      const newDeleteBtn = document.createElement("button");
+      newDeleteBtn.classList.add("delete-btn");
+      newItemBuy.classList.add("dinamic-block");
+
+      newItemBuy.textContent = productName;
+      newDeleteBtn.textContent = "Удалить";
+      cartItems.appendChild(newItemBuy);
+      newItemBuy.appendChild(newDeleteBtn);
+
+      newDeleteBtn.addEventListener("click", function () {
+        cartItems.removeChild(newItemBuy);
+        cartCountVar = cartCountVar - 1;
+        cartCount.textContent = cartCountVar;
+      });
+    }
+
+    addProduct1.addEventListener("click", function() {
+      addItem(product1Title.textContent);
+    });
+
+    addProduct2.addEventListener("click", function() {
+      addItem(product2Title.textContent);
+    });
+
+    addProduct3.addEventListener("click", function() {
+      addItem(product3Title.textContent);
+    });
+</script>
+</body>
+</html>

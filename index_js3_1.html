@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>js3_1</title>
+  <style>
+    .toggle-input{
+      position: absolute; 
+      opacity: 0;
+      pointer-events:none;
+    }
+
+    .toggle-label{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      width:44px;
+      height:24px;
+      border-radius: 999px;
+      background-color:gray;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .toggle_thumb{
+      position:absolute;
+      left:3px;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      background-color:#ffffff;
+      box-shadow:0 1px 3px rgba(0,0,0, 0.35);
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-input:checked + .toggle-label {
+      background-color: #3b82f6
+    }
+
+    .toggle-input:checked + .toggle-label .toggle_thumb{
+      transform: translateX(20px);
+    }
+
+    .toggle-second-level {
+      margin-left:20px;
+    }
+  </style>
+</head>
+<body style="padding:50px;">
+  
+<div class="toggle">
+<input type="checkbox" id="my-toggle" class="toggle-input"/>
+<label class="toggle-label" for="my-toggle">
+  <span class="toggle_thumb"></span>
+</label>
+</div>
+  
+  
+<div class="toggle-second-level">
+<input type="checkbox" id="my-toggle2" class="toggle-input"/>
+<label class="toggle-label" for="my-toggle2">
+  <span class="toggle_thumb"></span>
+</label>
+</div>
+  
+  <div class="toggle-second-level">
+<input type="checkbox" id="my-toggle3" class="toggle-input"/>
+<label class="toggle-label" for="my-toggle3">
+  <span class="toggle_thumb"></span>
+</label>
+</div>
+
+<script>
+const myToggle=document.getElementById('my-toggle');
+const myToggle2=document.getElementById('my-toggle2');
+const myToggle3=document.getElementById('my-toggle3');
+
+myToggle.addEventListener('change', function(){
+  if (myToggle.checked === false){
+    myToggle2.checked = false;
+    myToggle3.checked = false;
+  }
+});
+
+myToggle2.addEventListener('change', function(){
+  if (myToggle2.checked === true){
+    myToggle.checked = true;
+  } else {
+    if (myToggle3.checked === false){
+      myToggle.checked = false;
+    }
+  }
+});
+
+myToggle3.addEventListener('change', function(){
+  if (myToggle3.checked === true){
+    myToggle.checked = true;
+  } else {
+    if (myToggle2.checked === false){
+      myToggle.checked = false;
+    }
+  }
+});
+</script>
+</body>
+</html>
